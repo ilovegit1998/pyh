@@ -57,7 +57,7 @@ class Tag(list):
 
     def addObj(self, obj):
         if not isinstance(obj, Tag):
-            # obj = str(obj)
+        #     # obj = str(obj)
             obj=unicode(obj)
         id = self.setID(obj)
         setattr(self, id, obj)
@@ -183,6 +183,7 @@ class PyH(Tag):
         "从某个文件中导入js代码段"
         with open(filename, "r") as f:
             txt = f.read()
+            txt = txt.decode('utf-8')
             self.head += script(txt, type="text/javascript")
 
     def printOut(self, file='',encodetype="utf-8"):#添加一个默认参数用来设置编码方式
@@ -191,7 +192,9 @@ class PyH(Tag):
         else:
             f = stdout
         f.write(doctype)
+        f.write(charset)
         f.write(unicode(self.render()).encode(encodetype))
+        # f.write(self.render())
         f.flush()
         if file:
             f.close()
